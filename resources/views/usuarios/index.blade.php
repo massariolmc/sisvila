@@ -169,6 +169,16 @@
                 <div id="btn-place"></div>
             </div>
         </div>
+        <div class="row">
+            <div class="col">
+                <a title="Impressao em lote dos Usuarios" href="{{ route('crachas') }}">
+                    <i class="fas fa-print"></i> Impressao Crachas
+                </a>
+            </div>
+            <div class="col">
+                <div id="btn-place"></div>
+            </div>
+        </div>
     
 </div>
 <script>

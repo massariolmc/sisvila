@@ -96,13 +96,14 @@ class SendEmailController extends Controller
 
         $usuarios = User::find($usuario);
 
-        //$data["email"]=$request->get("email");
+	//$data["email"]=$request->get("email");
         $data["email"]= $usuarios->email;
         //$data["client_name"]=$request->get("client_name");
         $data["client_name"]= $usuarios->name;
         //$data["subject"]=$request->get("subject");
-        $data["subject"]='Seu QR-Code do SISVila chegou!';
+	$data["subject"]='Seu QR-Code do SISVila chegou!';
 
+	
         // $pdf = PDF::loadView('mails.qr_convidado_email', compact('convidado'));
         $pdf = PDF::loadView('mails.meuqr', compact('usuarios'));
  
@@ -130,7 +131,8 @@ class SendEmailController extends Controller
         }
         return redirect()
                     ->route('usuarios.index')
-                    ->with('success', 'Email encaminhado!');
+		    ->with('success', 'Email encaminhado!');
+	 
  }
 
  public function sendmail_meuqr_aluno($aluno){
@@ -150,14 +152,26 @@ class SendEmailController extends Controller
         } elseif ($alunos->tipo_aluno == 'ALUNO' && $alunos->local_aluno == 'EMEI Prof. Maria Josefina') {
             $data["email"] = $email_emei["emei"];
         } else {
-            $data["email"] = null;
+            //$data["email"] = null;
+            $data["email"] = $alunos->email_resp;
         }
 
-        $data["client_name"]= $alunos->nome_aluno;
+        //$data["client_name"]= $alunos->nome_aluno;
+        $data["client_name"]= $alunos->nome_resp;
 
-        $assunto = sprintf("O QR-Code do Aluno(a) %s (CPF: %d) chegou.", $alunos->nome_aluno, $alunos->cpf_aluno);
+        //$assunto = sprintf("O QR-Code do Aluno(a) %s (CPF: %d) chegou.", $alunos->nome_aluno, $alunos->cpf_aluno);
+        $assunto = sprintf("O QR-Code do Responsável do Aluno(a) %s (CPF: %d) chegou.", $alunos->nome_aluno_resp, $alunos->cpf_aluno_resp);
 
-        $data["subject"] = $assunto;
+	$data["subject"] = $assunto;
+
+
+	//var_dump($alunos);
+	//var_dump($alunos->cpf_aluno);
+	//var_dump($data);
+	//var_dump($assunto);
+	//echo($alunos->email);
+	//die;
+	//
 
         // $pdf = PDF::loadView('mails.qr_convidado_email', compact('convidado'));
         $pdf = PDF::loadView('mails.meuqr_aluno', compact('alunos'));

@@ -185,6 +185,7 @@ Route::get('/docs/{doc}/download', 'DocsController@download_doc')->name('docs.do
 //rota para envio de email na página usuarios.show
 use App\Http\Controllers\EmailController;
 Route::post('usuario/{id}/send-email', [EmailController::class, 'sendEmail'])->name('usuario.sendEmail');
+Route::post('aluno_resp_resp/{id}/send-email', [EmailController::class, 'sendEmailResp'])->name('aluno_resp.sendEmail');
 
 //funções para os usuários
 

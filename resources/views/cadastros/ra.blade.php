@@ -346,7 +346,13 @@
     function pesquisa_aluno() {
 
         var termoPesquisa = $('#termoPesquisa').val();
-
+        if (termoPesquisa === ''){
+		alert('Por favor, preencha o campo apenas com numeros.');
+	}	
+	else if (isNaN(termoPesquisa)) {
+           alert('Por favor, insira apenas números!');
+        }
+	else{	
         $.ajax({
             url: '{{ route("pesquisa") }}',
             type: 'GET',
@@ -365,7 +371,8 @@
                 console.error("Erro na requisição AJAX: ", error);
                 console.log("Resposta do servidor:", xhr.responseText);
             }
-        });
+	});
+	}
 
         function exibirResultados(resultados) {
             var listaResultados = $('#resultadosPesquisa');

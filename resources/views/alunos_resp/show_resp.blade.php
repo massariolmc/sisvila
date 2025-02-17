@@ -242,7 +242,30 @@ img {
                     </div>
 
                   </div>
+	      </div>
+<!-- EMAIL -->
+
+            <div class="row bordered-row">
+                <div class="col-12">
+                    <div class="card">
+                      <div class="card-header">
+                        Informações via Email ao(a) Sr.(a) {{ $alunos_resp->nome_resp }}
+                      </div>
+                      <div class="card-body">
+                        <h5 class="card-title">Digite neste campo sua mensagem</h5>
+                             <div class="form-group">
+                               <form action="{{ route('aluno_resp.sendEmail', $alunos_resp->id) }}" method="POST">
+                                  @csrf
+                                <textarea class="form-control" id="message" name="message" rows="3" placeholder="O email será encaminhado a {{ $alunos_resp->email_resp }}"></textarea><br>
+                                <button type="submit" class="btn btn-warning"> <i class="fas fa-mail-bulk"></i> Enviar Email</button>
+                              </form>
+                              </div>
+
+                      </div>
+                    </div>
+                </div>
               </div>
+<!-- EMAIL -->
 
               <!--MODAL QUE EXIBE O QR-CODE-->
                                 <div class="modal fade" id="QRView-<?=$alunos_resp->id;?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
