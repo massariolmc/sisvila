@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.layout_movimentacao')
 
 @section('style_morador')
 body {
@@ -226,7 +226,13 @@ body {
         @endif
 
 
-        <!--TERMINA AVISOS DE SAÍDA-->
+	<!--TERMINA AVISOS DE SAÍDA-->
+                             <a class="btn btn-outline-secondary" href="{{route('liberacao.index')}}">
+                                 <i class="fas fa-car"></i>
+                                <span>Voltar</span>
+                                <span class="badge badge-pill badge-warning"></span>
+                            </a>   
+                            <hr>
 
                             <h4>Digite o CPF ou faça a leitura do QR-Code</h4>
                             <hr>

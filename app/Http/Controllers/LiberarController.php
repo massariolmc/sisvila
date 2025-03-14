@@ -85,6 +85,8 @@ class LiberarController extends Controller
 
     public function completas()
     {
+	//$search = $request->input('search');
+	//$choose_search = $request->input('choose_search','liberador');
 
         $perfis = collect([]);
               foreach(explode(',',  Auth::user()->autorizacao) as $info){
@@ -110,17 +112,21 @@ class LiberarController extends Controller
                 $perfis->all();
               };
          if ($perfis->contains('Administrador') || $perfis->contains('Portaria')){
-            $liberacoes_moradores = DB::table('movimentacao')->orderBy('id', 'desc')->paginate(5);
+            $liberacoes_moradores = DB::table('movimentacao')->orderBy('id', 'desc')->paginate(15);
          } else {
-            $liberacoes_moradores = DB::table('movimentacao')->orderBy('id', 'desc')->paginate(5);
+            $liberacoes_moradores = DB::table('movimentacao')->orderBy('id', 'desc')->paginate(15);
          };
      
        return view('liberar.completas', compact('liberacoes_moradores'));
     }
 
-    public function completas_visitantes()
+    public function completas_visitantes(Request $request)
     {
-
+	$search = $request->input('search');
+	$choose_search = $request->input('choose_search','liberador');
+	//var_dump($choose_search);
+	//die;	
+	
         $perfis = collect([]);
               foreach(explode(',',  Auth::user()->autorizacao) as $info){
                 if ($info == 'mo') {
@@ -145,15 +151,18 @@ class LiberarController extends Controller
                 $perfis->all();
               };
          if ($perfis->contains('Administrador') || $perfis->contains('Portaria')){
-            $liberacoes_completas = DB::table('cad_vis_entrada')->where('movimentacao', 'S')->orderBy('id', 'desc')->paginate(5);
+		 $liberacoes_completas = DB::table('cad_vis_entrada')
+			 ->where('movimentacao', 'S')
+			 ->Where("{$choose_search}", 'like', "%{$search}%")	       
+			 ->orderBy('id', 'desc')->paginate(15)->appends(['choose_search' => $choose_search]);
          } else {
-            $liberacoes_completas = DB::table('cad_vis_entrada')->where([
-                ['onesignal_id', Auth::user()->id],
-                ['movimentacao', 'S']
-            ])->orderBy('movimentacao', 'asc')->paginate(5);
+		 $liberacoes_completas = DB::table('cad_vis_entrada')
+			 ->where([ ['onesignal_id', Auth::user()->id], ['movimentacao', 'S']  ])
+			 ->Where("{$choose_search}", 'like', "%{$search}%")	       
+		         ->orderBy('movimentacao', 'asc')->paginate(15);
          };
      
-       return view('liberar.completas_visitantes', compact('liberacoes_completas'));
+       return view('liberar.completas_visitantes', compact('liberacoes_completas','search'));
     }
 
     /**
@@ -285,9 +294,13 @@ class LiberarController extends Controller
           'movimentacao' => 'A'
         ]);
         
+        //ENVIAR QR-CODE do visitante para email do liberador
+    
         return redirect()
-                    ->route('home')
-                    ->with('success', 'Visitante liberado novamente!');
+                    ->route('email_qrcode', $anteriores);
+        //return redirect()
+        //           ->route('home')
+        //           ->with('success', 'Visitante liberado novamente!');
 
     }
 

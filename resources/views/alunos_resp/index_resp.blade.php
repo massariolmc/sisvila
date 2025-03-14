@@ -140,9 +140,18 @@
                             </a>
                             @endif
                             @if ($r->status_aluno == "1")
-                            <a title="Enviar EMAIL ao aluno com seu QR-Code" style="color: green" href="{{ route('email_qrcode_meuqr_aluno', [$r->id]) }}">
+                            <!-- <a title="Enviar EMAIL ao aluno com seu QR-Code" style="color: green" href="{{ route('email_qrcode_meuqr_aluno', [$r->id]) }}">
                                         <i class="far fa-envelope btn-mail"></i>
-                            </a>
+			    </a> -->
+                                 @if($r->controle_email > 0)
+                                    <a title="Enviar EMAIL a Escola/EMEI com QR-Code deste Aluno/Resp." style="color: purple;" href="{{ route('email_qrcode_meuqr_aluno', [$r->id]) }}">
+                                                <i class="far fa-envelope btn-mail">+{{ $r->controle_email }}</i>
+                                    </a>
+                                    @else
+                                    <a title="Enviar EMAIL a Escola/EMEI com QR-Code deste Aluno/Resp." style="color: green" href="{{ route('email_qrcode_meuqr_aluno', [$r->id]) }}">
+                                                <i class="far fa-envelope btn-mail"></i>
+                                    </a>
+                                  @endif  
                             @endif
                         </td>
                     </tr>

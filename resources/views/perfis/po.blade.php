@@ -1,3 +1,4 @@
+<!--
 <p>
     <div class="row justify-content-center text-center">
         <div class="col-lg-4 d-flex justify-content-center text-center" style="width: 280px;">
@@ -8,6 +9,7 @@
         </div>
     </div>
 </p>
+-->
     <div class="row">
         <div class="col-lg-12 d-flex justify-content-center text-center">
           <p>
