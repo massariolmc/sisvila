@@ -82,3 +82,17 @@
           </p>
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-12 d-flex justify-content-center text-center">
+          <p>
+            <a href="{{ route('liberacao.index_entradas') }}" class="btn qrcode" style="background-color: steelblue; border-color: black; color: white;">
+              <i class="fa fa-arrow-circle-up fa-2x"></i><br/>
+                PORTARIA - ENTRADA LISTA VISITANTE
+            </a>
+            <a href="{{ route('liberacao.index_saidas') }}" class="btn qrcode" style="background-color: grey; border-color: black; color: white;">
+              <i class="fa fa-arrow-circle-down fa-2x"></i><br/>
+                PORTARIA - SAIDA LISTA VISITANTE
+            </a>
+          </p>
+        </div>
+    </div>

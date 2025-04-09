@@ -82,6 +82,122 @@ class LiberarController extends Controller
      
         return view('liberar.index', compact('liberacoes_entradas', 'liberacoes_saidas', 'liberacoes_completas'));
     }
+    
+    public function index_entradas(Request $request)
+    {
+	    $search = $request->input('search');
+            $choose_search = $request->input('choose_search','liberador');
+            $per_page = 25;
+	    $perfis = collect([]);
+              foreach(explode(',',  Auth::user()->autorizacao) as $info){
+                if ($info == 'mo') {
+                  $perfis->push('Morador');
+                } elseif ($info == 'so') {
+                  $perfis->push('Sócio');
+                } elseif ($info == 'al') {
+                  $perfis->push('Aluno');
+                } elseif ($info == 'ef') {
+                  $perfis->push('Efetivo BACG');
+                } elseif ($info == 'fe') {
+                  $perfis->push('Funcionário da Escola');
+                } elseif ($info == 'ra') {
+                  $perfis->push('Responsável por Aluno');
+                } elseif ($info == 'po') {
+                  $perfis->push('Portaria');
+                } elseif ($info == 'ad') {
+                  $perfis->push('Administrador');
+                  } elseif ($info == 'al') {
+                  $perfis->push('Aluno');
+                }
+                $perfis->all();
+              };
+         if ($perfis->contains('Administrador') || $perfis->contains('Portaria')){
+            $liberacoes_entradas = DB::table('cad_vis_entrada')
+                                       ->where('movimentacao', 'A')
+                                       ->Where("{$choose_search}", 'like', "%{$search}%")      
+                                       ->orderBy('id','desc')
+                                       ->paginate($per_page)
+                                       ->appends(['choose_search' => $choose_search]);
+            //$liberacoes_saidas = DB::table('cad_vis_entrada')->where('movimentacao', 'E')->orderBy('movimentacao')->paginate($per_page);
+            //$liberacoes_completas = DB::table('cad_vis_entrada')->where('movimentacao', 'S')->orderBy('movimentacao')->paginate($per_page);
+         } else {
+		 $liberacoes_entradas = DB::table('cad_vis_entrada')
+			              ->where('onesignal_id', Auth::user()
+				      ->id && 'movimentacao', 'A')
+                                      ->Where("{$choose_search}", 'like', "%{$search}%")      
+                                      ->orderBy('id','desc')
+                                      ->paginate($per_page)
+                                      ->appends(['choose_search' => $choose_search]);
+            //$liberacoes_saidas = DB::table('cad_vis_entrada')->where('onesignal_id', Auth::user()->id && 'movimentacao', 'E')->orderBy('movimentacao')->paginate($per_page);
+            //$liberacoes_completas = DB::table('cad_vis_entrada')->where('onesignal_id', Auth::user()->id && 'movimentacao', 'S')->orderBy('movimentacao')->paginate($per_page);
+         };
+        //return view('liberar.index_entrada', compact('liberacoes_entradas', 'liberacoes_saidas', 'liberacoes_completas'));
+        return view('liberar.index_entradas', compact('liberacoes_entradas','search'));
+    }
+    
+    public function index_saidas(Request $request)
+    {
+	    $search = $request->input('search');
+            $choose_search = $request->input('choose_search','liberador');
+            $per_page = 25;
+	    $perfis = collect([]);
+              foreach(explode(',',  Auth::user()->autorizacao) as $info){
+                if ($info == 'mo') {
+                  $perfis->push('Morador');
+                } elseif ($info == 'so') {
+                  $perfis->push('Sócio');
+                } elseif ($info == 'al') {
+                  $perfis->push('Aluno');
+                } elseif ($info == 'ef') {
+                  $perfis->push('Efetivo BACG');
+                } elseif ($info == 'fe') {
+                  $perfis->push('Funcionário da Escola');
+                } elseif ($info == 'ra') {
+                  $perfis->push('Responsável por Aluno');
+                } elseif ($info == 'po') {
+                  $perfis->push('Portaria');
+                } elseif ($info == 'ad') {
+                  $perfis->push('Administrador');
+                  } elseif ($info == 'al') {
+                  $perfis->push('Aluno');
+                }
+                $perfis->all();
+              };
+         if ($perfis->contains('Administrador') || $perfis->contains('Portaria')){
+            //$liberacoes_entradas = DB::table('cad_vis_entrada')
+            //                           ->where('movimentacao', 'A')
+            //                           ->Where("{$choose_search}", 'like', "%{$search}%")      
+            //                           ->orderBy('id','desc')
+            //                           ->paginate($per_page)
+            //                           ->appends(['choose_search' => $choose_search]);
+	    $liberacoes_saidas = DB::table('cad_vis_entrada')
+		                       ->where('movimentacao', 'E')
+                                       ->Where("{$choose_search}", 'like', "%{$search}%")      
+                                       ->orderBy('id','desc')
+                                       ->paginate($per_page)
+                                       ->appends(['choose_search' => $choose_search]);
+            //$liberacoes_completas = DB::table('cad_vis_entrada')->where('movimentacao', 'S')->orderBy('movimentacao')->paginate($per_page);
+         } else {
+		 //$liberacoes_entradas = DB::table('cad_vis_entrada')
+		 //	              ->where('onesignal_id', Auth::user()
+		 //		      ->id && 'movimentacao', 'A')
+                 //                     ->Where("{$choose_search}", 'like', "%{$search}%")      
+                 //                      ->orderBy('id','desc')
+                 //                      ->paginate($per_page)
+                 //                      ->appends(['choose_search' => $choose_search]);
+		 $liberacoes_saidas = DB::table('cad_vis_entrada')
+			              ->where('onesignal_id', Auth::user()
+				      ->id && 'movimentacao', 'E')
+                                      ->Where("{$choose_search}", 'like', "%{$search}%")      
+                                      ->orderBy('id','desc')
+                                      ->paginate($per_page)
+                                      ->appends(['choose_search' => $choose_search]);
+
+            //$liberacoes_completas = DB::table('cad_vis_entrada')->where('onesignal_id', Auth::user()->id && 'movimentacao', 'S')->orderBy('movimentacao')->paginate($per_page);
+         };
+        //return view('liberar.index_saida', compact('liberacoes_entradas', 'liberacoes_saidas', 'liberacoes_completas'));
+        return view('liberar.index_saidas', compact('liberacoes_saidas','search'));
+    }
 
     public function completas()
     {

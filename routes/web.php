@@ -55,6 +55,8 @@ Route::post('/liberacao/novo', 'LiberarController@novo')->name('liberacao.novo')
 Route::post('/liberacao/transporte', 'LiberarController@transporte')->name('liberacao.transporte')->middleware('auth');
 Route::post('/liberacao/entregador', 'LiberarController@entregador')->name('liberacao.entregador')->middleware('auth');
 Route::post('/liberacao/convidado', 'LiberarController@convidado')->name('liberacao.convidado')->middleware('auth');
+Route::get('/liberacao/custom/index_entradas', 'LiberarController@index_entradas')->name('liberacao.index_entradas')->middleware('auth');
+Route::get('/liberacao/custom/index_saidas', 'LiberarController@index_saidas')->name('liberacao.index_saidas')->middleware('auth');
 Route::get('/liberacao_completa', 'LiberarController@completas')->name('liberacao.completa')->middleware('auth');
 Route::get('/liberacao_completa_visitantes', 'LiberarController@completas_visitantes')->name('liberacao.completa_visitantes')->middleware('auth');
 Route::get('/notificar_entrada/{onesignal}/{id}', 'LiberarController@notificar_entrada')->name('notificar_entrada')->middleware('auth');
