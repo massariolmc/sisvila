@@ -13,26 +13,14 @@
     
     <hr>
     @if (in_array('ad', $userProfiles) || in_array('po', $userProfiles))
-        <div class="row">
-            <div class="col-md-4 mb-3">
-                <a href="{{route('movimentacao')}}" class="btn btn-info w-100" title="Movimentações">ENTRADA/SAÍDA</a>    
+	<div class="row">
+            <div class="col-md-6 mb-3">
+                <a href="{{route('movimentacao')}}" class="btn btn-info w-100" title="Movimentacao">Leitor QRCODE</a> 
             </div>
-            <div class="col-md-4 mb-3">
-              <div class="dropdown">
-                <button type="button" class="btn btn-success dropdown-toggle w-100" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Movimentações
-                </button>
-                <div class="dropdown-menu w-100">
-                  <a class="dropdown-item" href="{{route('liberacao.completa')}}">Moradores</a>
-                  <a class="dropdown-item" href="{{route('liberacao.completa_visitantes')}}">Visitantes</a>
-                  <!--<a class="dropdown-item" href="{{route('lista_ingresso.lista')}}">Listas de Ingresso</a>-->
-                </div>
-              </div>
-            </div>
-	    <div class="col-md-4 mb-3">
-              <a class="btn btn-outline-secondary w-100" href="{{route('home')}}">
-                  <i class="fas fa-home"></i>
-                    <span>Inicio</span>
+            <div class="col-md-6 mb-3">
+              <a class="btn btn-outline-secondary w-100" href="{{route('liberacao.index')}}">
+                  <i class="fas fa-building"></i>
+                    <span>Portaria</span>
                     <span class="badge badge-pill badge-warning"></span>
               </a>
             </div>
