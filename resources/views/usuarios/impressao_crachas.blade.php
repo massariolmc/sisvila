@@ -35,6 +35,8 @@
 				border-color: red; /* cores: topo, direita, inferior, esquerda */
 				padding: 3px;
 				background-color: white;
+                                margin-bottom: 10px;  
+                                margin-right: 10px;  
 			}
 
 		</style>

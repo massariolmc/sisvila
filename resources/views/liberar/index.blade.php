@@ -76,6 +76,11 @@ body {
                                 <i class="fas fa-reply"></i>
                                 <span>Liberar Saidas</span>
                               </a>
+			      
+                              <a class="custom-button" href="{{ route('liberacao.index_search_users') }}" style="background-color: cadetblue; color: white;">
+                                <i class="fas fa-search"></i>
+                                <span>Pesquisa - Morador/EMEI/Func.Escola</span>
+                              </a>
 
                               <a class="custom-button" href="{{ route('liberacao.completa') }}" style="background-color: gray; color: white;">
                                 <i class="fas fa-user"></i>

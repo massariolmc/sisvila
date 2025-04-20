@@ -33,9 +33,12 @@
         <div class="col-1">
             <button id="desativaSelected" title="DESATIVAR TODOS SELECIONADOS" class="btn btn-warning"><i class="fas fa-user-slash"></i></button>
         </div>
-            <div class="col-1">
-                <button id="deleteSelected" title="APAGAR TODOS SELECIONADOS" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-            </div>
+        <div class="col-1">
+           <button id="deleteSelected" title="APAGAR TODOS SELECIONADOS" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+        </div>
+        <div class="col-1">
+            <button id="impressaoSelected" title="IMPRESSAO CRACHA SELECIONADOS" class="btn btn-info"><i class="fas fa-print"></i></button>
+        </div>
     </div>
 <hr>
     <div class="row">
@@ -171,8 +174,38 @@
         </div>
         <div class="row">
             <div class="col">
-                <a title="Impressao em lote dos Usuarios" href="{{ route('crachas') }}">
-                    <i class="fas fa-print"></i> Impressao Crachas
+                <a title="Impressao em lote dos Usuarios" target="_blank" href="{{ route('crachas') }}">
+                    <i class="fas fa-print"></i> Impressao Crachas(Todos)
+                </a>
+            </div>
+            <div class="col">
+                <div id="btn-place"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <a title="Impressao em lote dos Usuarios Moradores" target="_blank" href="{{ route('crachas_morador') }}">
+                    <i class="fas fa-print"></i> Impressao Somente Moradores
+                </a>
+            </div>
+            <div class="col">
+                <div id="btn-place"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <a title="Impressao em lote dos Usuarios que sÃo Funcionarios" target="_blank" href="{{ route('crachas_func') }}">
+                    <i class="fas fa-print"></i> Impressao Somente Escola/EMEI
+                </a>
+            </div>
+            <div class="col">
+                <div id="btn-place"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <a title="Impressao em lote dos Usuarios de Portaria" target="_blank" href="{{ route('crachas_portaria') }}">
+                    <i class="fas fa-print"></i> Impressao Somente Portaria
                 </a>
             </div>
             <div class="col">

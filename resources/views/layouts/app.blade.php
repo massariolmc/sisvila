@@ -1342,6 +1342,56 @@
 @endif
 
 
+@if(Request::routeIs('usuarios.*'))
+let selectedIDs = new Set(); // Usamos Set para evitar duplicatas
+
+// Quando o usuário marca ou desmarca um checkbox individual
+$(document).on('change', 'input[name="selected[]"]', function () {
+    const id = $(this).val();
+
+    if (this.checked) {
+        selectedIDs.add(id);
+    } else {
+        selectedIDs.delete(id);
+    }
+});
+
+// Quando o botão "Select All" é clicado
+$('#selectAll').on('change', function () {
+    const isChecked = this.checked;
+
+    // Aplica a seleção apenas nas linhas visíveis da página atual
+    table_usuarios.rows({ page: 'current' }).nodes().to$().find('input[name="selected[]"]').each(function () {
+        this.checked = isChecked;
+        const id = this.value;
+
+        if (isChecked) {
+            selectedIDs.add(id);
+        } else {
+            selectedIDs.delete(id);
+        }
+    });
+});
+
+// Quando o botão "Gerar Crachás" é clicado
+$('#impressaoSelected').click(function () {
+    if (selectedIDs.size === 0) {
+        alert('Por favor, selecione pelo menos um item para gerar crachá(s).');
+        return;
+    }
+
+    const confirmation = confirm('Tem certeza de que deseja GERAR os crachás selecionados?');
+
+    if (confirmation) {
+        // Abre a visualização em uma nova aba com os IDs
+        const idsArray = Array.from(selectedIDs);
+        const url = `/cracha_selects?ids=${idsArray.join(',')}`;
+        window.open(url, '_blank');
+    }
+});
+@endif
+
+
     
 
     $('#listas').DataTable({

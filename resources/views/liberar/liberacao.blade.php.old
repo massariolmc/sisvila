@@ -1,29 +1,6 @@
 @extends('layouts.app')
+
 @section('content')
-
-<style>
-#suggestions {
-    position: absolute;
-    background: white;
-    border: 1px solid #ccc;
-    border-top: none;
-    z-index: 9999;
-    width: 100%;
-    max-height: 200px;
-    overflow-y: auto;
-}
-
-#suggestions li {
-    padding: 10px;
-    cursor: pointer;
-}
-
-#suggestions li:hover {
-    background-color: #f0f0f0;
-}
-
-</style>
-
 <div class="container">
     <div class="row align-items-center">
         <div class="col-md-2">
@@ -114,12 +91,11 @@
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="mensagem">Procure pelo Apelido cadastrado</label>
-                                    <div class="input-group mb-3" style="position: relative;">
+                                    <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text"><i class="fab fa-searchengin"></i></div>
                                         </div>
-                                            <input class="form-control" id="lista_apelidos" name="apelido" placeholder="Pesquisa automatica" autocomplete="off">
-                                            <ul id="suggestions" class="list-group"></ul>  
+                                            <input class="form-control" list="apelidos" id="lista_apelidos" name="apelido" placeholder="Pesquisa automática"  autocomplete="off">
                                     </div>
                                 </div>
                             </div>
@@ -805,30 +781,13 @@
 	    });
 
 //Busca Apelidos	    
-//	$('#lista_apelidos').on('input', function () {
-//        let query = $(this).val();
+	$('#lista_apelidos').on('input', function () {
+        let query = $(this).val();
 
-//        if (query.length < 2) {
-//            $('#suggestions').empty();
-//            return;
-//        }
-	$('#lista_apelidos').on('keyup', function (e) {
-    let key = e.key;
-    let query = $(this).val().trim();
-    let suggestions = $('#suggestions');
-
-    // Sempre limpa antes de fazer qualquer coisa
-    suggestions.empty();
-    // Se o campo estiver vazio, limpa a sugestão
-    if (query.length < 4) {
-        $('#suggestions').empty();
-        return;
-    }
-
-    // Se for backspace, não faz nova requisição, mas mantém as sugestões atuais
-    if (key === 'Backspace') {
-        return;
-    }
+        if (query.length < 2) {
+            $('#suggestions').empty();
+            return;
+        }
 
         $.ajax({
             url: '{{ route("liberacao.buscar_apelidos") }}',
@@ -839,20 +798,17 @@
                 suggestions.empty();
 
                 if (data.length === 0) {
-                    //suggestions.append('<li class="list-group-item">Nenhum resultado</li>');
-                    suggestions.empty(); // Apenas esconde
-                    return;
+                    suggestions.append('<li class="list-group-item">Nenhum resultado</li>');
                 } else {
                     data.forEach(function (item) {
-                        suggestions.append('<li class="list-group-item" data-value="'+item.apelido+'">' + item.apelido +' - ' + item.nome_completo + ' - ' + item.destino + '</li>');
+                        suggestions.append('<li class="list-group-item">' + item + '</li>');
                     });
                 }
 
                 // Clique em sugestão
-		$('#suggestions li').on('click', function () {
-		     let value = $(this).data('value'); // aqui pega só o apelido
-                     $('#lista_apelidos').val(value);
-                     suggestions.empty();
+                $('#suggestions li').on('click', function () {
+                    $('#lista_apelidos').val($(this).text());
+                    suggestions.empty();
                 });
             }
         });

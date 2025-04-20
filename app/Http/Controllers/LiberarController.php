@@ -198,6 +198,54 @@ class LiberarController extends Controller
         //return view('liberar.index_saida', compact('liberacoes_entradas', 'liberacoes_saidas', 'liberacoes_completas'));
         return view('liberar.index_saidas', compact('liberacoes_saidas','search'));
     }
+    
+    public function index_search_users(Request $request)
+    {
+	    $search = $request->input('search');
+            $choose_search = $request->input('choose_search','name');
+            $per_page = 25;
+	    $perfis = collect([]);
+              foreach(explode(',',  Auth::user()->autorizacao) as $info){
+                if ($info == 'mo') {
+                  $perfis->push('Morador');
+                } elseif ($info == 'so') {
+                  $perfis->push('Sócio');
+                } elseif ($info == 'al') {
+                  $perfis->push('Aluno');
+                } elseif ($info == 'ef') {
+                  $perfis->push('Efetivo BACG');
+                } elseif ($info == 'fe') {
+                  $perfis->push('Funcionário da Escola');
+                } elseif ($info == 'ra') {
+                  $perfis->push('Responsável por Aluno');
+                } elseif ($info == 'po') {
+                  $perfis->push('Portaria');
+                } elseif ($info == 'ad') {
+                  $perfis->push('Administrador');
+                  } elseif ($info == 'al') {
+                  $perfis->push('Aluno');
+                }
+                $perfis->all();
+              };
+         if ($perfis->contains('Administrador') || $perfis->contains('Portaria')){
+	    #$liberacoes_saidas = DB::table('cad_vis_entrada')
+	    #	                       ->where('movimentacao', 'E')
+            #                           ->Where("{$choose_search}", 'like', "%{$search}%")      
+            #                           ->orderBy('id','desc')
+            #                           ->paginate($per_page)
+	    #			       ->appends(['choose_search' => $choose_search]);
+		 $usuarios = DB::table('users')
+			    ->select('id', 'local', 'name', 'cpf', 'status', 'autorizacao', 'telefone')
+			    ->where('status', '=', '1')
+                            ->Where("{$choose_search}", 'like', "%{$search}%")      
+                            ->orderBy('name','asc')
+                            ->paginate($per_page)
+			    ->appends(['choose_search' => $choose_search]);
+	 } 
+            #return view('liberar.index_search_users', ['usuarios' => $usuarios]);
+            return view('liberar.index_search_users', compact('usuarios','search'));
+        #return view('liberar.index_saidas', compact('liberacoes_saidas','search'));
+    }
 
     public function completas()
     {
@@ -351,6 +399,21 @@ class LiberarController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function buscarApelidos(Request $request)
+    {
+        $query = $request->get('q');
+
+	$apelidos = DB::table('cad_vis_entrada')
+		->where('liberador','=',Auth::user()->name)
+		->where('apelido', 'LIKE', "%{$query}%")
+	        ->get();
+               //->distinct()
+               //->limit(10)
+               //->pluck('apelido');
+
+               return response()->json($apelidos);
     }
 
     // FUNÇÕES PARA LIBERAÇÃO DE VISITANTES

@@ -332,6 +332,30 @@ if (!is_null($request->saida)) {
         return view('usuarios.impressao_crachas', compact('crachas'));
     }
 
+    public function impressao_selects(Request $request)
+    {
+	$ids = explode(',', $request->input('ids')); // transforma '1,2,3' em [1,2,3]
+
+        if ($ids && is_array($ids)) {
+            $crachas = User::whereIn('id', $ids)->get();
+            return view('usuarios.impressao_crachas', compact('crachas'));
+        } else {
+            return response()->json(['error' => 'No IDs provided or not array'], 400); // Erro se a lista estiver vazia ou não for um array
+        }
+    }
+    public function impressao_morador(){
+        $crachas = User::where('autorizacao','=','mo')->get();
+        return view('usuarios.impressao_crachas', compact('crachas'));
+    }
+    public function impressao_func(){
+        $crachas = User::where('autorizacao','=','fe')->get();
+        return view('usuarios.impressao_crachas', compact('crachas'));
+    }
+    public function impressao_portaria(){
+        $crachas = User::where('autorizacao','=','po')->get();
+        return view('usuarios.impressao_crachas', compact('crachas'));
+    }
+    
     public function impressao_alunos(){
         $crachas = CadAluno::all();
         return view('usuarios.impressao_crachas', compact('crachas'));

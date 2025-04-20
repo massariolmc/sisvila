@@ -55,8 +55,10 @@ Route::post('/liberacao/novo', 'LiberarController@novo')->name('liberacao.novo')
 Route::post('/liberacao/transporte', 'LiberarController@transporte')->name('liberacao.transporte')->middleware('auth');
 Route::post('/liberacao/entregador', 'LiberarController@entregador')->name('liberacao.entregador')->middleware('auth');
 Route::post('/liberacao/convidado', 'LiberarController@convidado')->name('liberacao.convidado')->middleware('auth');
+Route::get('/liberacao/custom/buscar-apelidos', 'LiberarController@buscarApelidos')->name('liberacao.buscar_apelidos')->middleware('auth');
 Route::get('/liberacao/custom/index_entradas', 'LiberarController@index_entradas')->name('liberacao.index_entradas')->middleware('auth');
 Route::get('/liberacao/custom/index_saidas', 'LiberarController@index_saidas')->name('liberacao.index_saidas')->middleware('auth');
+Route::get('/liberacao/custom/pesquisa_morador', 'LiberarController@index_search_users')->name('liberacao.index_search_users')->middleware('auth');
 Route::get('/liberacao_completa', 'LiberarController@completas')->name('liberacao.completa')->middleware('auth');
 Route::get('/liberacao_completa_visitantes', 'LiberarController@completas_visitantes')->name('liberacao.completa_visitantes')->middleware('auth');
 Route::get('/notificar_entrada/{onesignal}/{id}', 'LiberarController@notificar_entrada')->name('notificar_entrada')->middleware('auth');
@@ -152,9 +154,25 @@ Route::get('/movimentacao', function () {
     return view('liberar.morador');
 })->name('movimentacao');
 
+//*****************CRACHAS***********************
+//Gerar todos os crachas
 Route::get('/cracha', 'QrCodeController@impressao')->name('crachas')->middleware('auth');
 
+//Gera os crachas selecionados na tela de usuarios
+Route::get('/cracha_selects', 'QrCodeController@impressao_selects')->name('crachas_selects')->middleware('auth');
+
+//Gera todos os crachas de quem é morados na tela de usuarios
+Route::get('/cracha_morador', 'QrCodeController@impressao_morador')->name('crachas_morador')->middleware('auth');
+
+//Gera todos os crachas de quem tem autorizacao de  funcionario da escola na tela de usuarios
+Route::get('/cracha_func', 'QrCodeController@impressao_func')->name('crachas_func')->middleware('auth');
+
+//Gera todos os crachas de quem tem autorizacao de portaria na tela de usuarios
+Route::get('/cracha_portaria', 'QrCodeController@impressao_portaria')->name('crachas_portaria')->middleware('auth');
+
+//Gera os cracha dos alunos
 Route::get('/cracha_alunos', 'QrCodeController@impressao_alunos')->name('crachas_alunos')->middleware('auth');
+//*****************CRACHAS***********************
 
 // Rota de cadastro de alunos e responsáveis
 Route::post('/register_aluno', 'CadAlunoController@store')->name('register_aluno');
